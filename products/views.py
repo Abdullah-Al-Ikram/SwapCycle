@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 
-from products.models import Product, Category
+from products.models import Product, Category, Order
 
 
 # Create your views here.
@@ -8,7 +8,8 @@ def home(request):
     categories = Category.objects.all()
     products = Product.objects.all()
     free_items = Product.objects.filter(price=0)
-    return render(request, 'front/index.html', {'categories': categories, 'products': products, 'free_items': free_items})
+    orders = Order.objects.select_related('product').all().order_by('-created_at')
+    return render(request, 'front/index.html', {'categories': categories, 'products': products, 'free_items': free_items, 'orders': orders})
 
 def product_detail(request, pk):
     product = get_object_or_404(Product, pk=pk)

@@ -23,3 +23,26 @@ class Product(models.Model):
     def __str__(self):
         return self.title
 
+
+class PickupPoint(models.Model):
+    name = models.CharField(max_length=100)
+    address = models.TextField()
+
+    def __str__(self):
+        return self.name
+
+
+class Order(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    customer_name = models.CharField(max_length=100)
+    phone = models.CharField(max_length=15)
+    quantity = models.PositiveIntegerField(default=1)
+    pickup_point = models.ForeignKey(PickupPoint, on_delete=models.SET_NULL, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.customer_name} - {self.product.title}"
+
+    @property
+    def total_price(self):
+        return self.product.price * self.quantity
