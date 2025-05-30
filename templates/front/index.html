@@ -358,25 +358,20 @@
 </div>
 
               <div class="col-md-6 p-5">
-                <form>
-                  <div class="mb-3">
-                    <label for="name" class="form-label">Name</label>
-                    <input type="text"
-                      class="form-control form-control-lg" name="name" id="name" placeholder="Name">
-                  </div>
-                  <div class="mb-3">
-                    <label for="" class="form-label">Email</label>
-                    <input type="email" class="form-control form-control-lg" name="email" id="email" placeholder="abc@mail.com">
-                  </div>
-                  <div class="form-check form-check-inline mb-3">
-                    <label class="form-check-label" for="subscribe">
-                    <input class="form-check-input" type="checkbox" id="subscribe" value="subscribe">
-                    Subscribe to the newsletter</label>
-                  </div>
-                  <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-dark btn-lg">Submit</button>
-                  </div>
-                </form>
+                <form method="POST"> {% csrf_token %}
+  <div class="mb-3">
+    <label for="name" class="form-label">Name</label>
+    <input type="text" class="form-control form-control-lg" name="name" id="name" placeholder="Name" required>
+  </div>
+  <div class="mb-3">
+    <label for="email" class="form-label">Email</label>
+    <input type="email" class="form-control form-control-lg" name="email" id="email" placeholder="abc@mail.com" required>
+  </div>
+  <div class="d-grid gap-2">
+    <button type="submit" class="btn btn-dark btn-lg">Submit</button>
+  </div>
+</form>
+
                 
               </div>
               

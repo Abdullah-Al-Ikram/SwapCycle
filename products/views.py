@@ -2,18 +2,25 @@ from django.contrib import messages
 from django.db.models import OuterRef, Subquery
 from django.shortcuts import redirect,render, get_object_or_404
 from django.urls import reverse
-from django.contrib.auth.decorators import login_required
-from .models import Category, Product, PickupPoint, Order
-from .forms import CategoryForm, ProductForm, PickupPointForm, OrderForm
+from django.contrib.auth.decorators import login_required, user_passes_test
+from .models import Category, Product, PickupPoint, Order, Subscription
+from .forms import CategoryForm, ProductForm, PickupPointForm, OrderForm, SubscribeForm
 from django.contrib.admin.views.decorators import staff_member_required
 from django.db.models import Q
 
 def home(request):
+    subs_form = SubscribeForm()
+    if request.method == 'POST':
+        subs_form = SubscribeForm(request.POST)
+        if subs_form.is_valid():
+            subs_form.save()
+            messages.success(request, "Subscribed successfully!")
+            return redirect('home')
     categories = Category.objects.all()
     products = Product.objects.all()
     free_items = Product.objects.filter(price=0)
     orders = Order.objects.select_related('product').all().order_by('-created_at')
-    return render(request, 'front/index.html', {'categories': categories, 'products': products, 'free_items': free_items, 'orders': orders})
+    return render(request, 'front/index.html', {'categories': categories, 'products': products, 'free_items': free_items, 'orders': orders, 'subs_form': subs_form})
 def product_detail(request, pk):
     product = get_object_or_404(Product, pk=pk)
     return render(request, 'front/product-details.html', {'product': product})
@@ -152,9 +159,15 @@ def product_search(request):
         'results': results
     })
 
-
 @login_required
 def product_delete(request, pk):
     product = get_object_or_404(Product, pk=pk)
     product.delete()
     return redirect(reverse('product-list'))
+
+@login_required
+def subscription_list(request):
+    subscriptions = Subscription.objects.all()
+    return render(request, 'back/subscribe.html', {'subscriptions': subscriptions})
+
+

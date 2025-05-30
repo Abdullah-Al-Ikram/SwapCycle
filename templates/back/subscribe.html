@@ -50,12 +50,6 @@
           <span class="text">Add Product</span>
         </a>
       </li>
-          <li class="nav-item">
-        <a href="{% url 'sells-page' %}">
-          <span class="icon">🧾</span>
-          <span class="text">Sells List</span>
-        </a>
-      </li>
       {% endif %}
 
       <!-- Order List: user and admin only -->
@@ -93,12 +87,6 @@
         <a href="{% url 'pickup-list' %}">
           <span class="icon">📍</span>
           <span class="text">Pickup Points</span>
-        </a>
-      </li>
-          <li class="nav-item">
-        <a href="{% url 'subscription-list' %}">
-          <span class="icon">📍</span>
-          <span class="text">Subscription</span>
         </a>
       </li>
       {% endif %}
@@ -177,7 +165,6 @@
           </div>
         </div>
       </header>
-      <!-- ========== header end ========== -->
 
       <!-- ========== section start ========== -->
       <section class="section">
@@ -187,7 +174,7 @@
             <div class="row align-items-center">
               <div class="col-md-6">
                 <div class="title">
-                  <h2>Dashboard</h2>
+                  <h2>PickUp Lists</h2>
                 </div>
               </div>
               <!-- end col -->
@@ -196,7 +183,7 @@
                   <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                       <li class="breadcrumb-item">
-                        <a href="#0">Dashboard</a>
+                        <a href="#0">Subscription Lists</a>
                       </li>
                       <li class="breadcrumb-item active" aria-current="page">
                         Page
@@ -215,11 +202,38 @@
 
             <div class="row">
               <div class="col-lg-12">
-                  <div class="card-style mb-30">
-  <h4>Welcome, {{ request.user.get_full_name|default:request.user.username }}!</h4>
-  <p><strong>Role:</strong> {{ request.user.role|title }}</p>
-  <p><strong>Email:</strong> {{ request.user.email }}</p>
-</div>
+                <div class="card-style mb-30">
+
+                  <div class="table-wrapper table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>
+                            <h6>Name</h6>
+                          </th>
+                          <th>
+                            <h6>Email</h6>
+                          </th>
+                        </tr>
+                        <!-- end table row-->
+                      </thead>
+                         {% for subs in subscriptions %}
+                      <tbody>
+                        <tr>
+                          <td class="min-width">
+                            <p>{{ subs.name }}</p>
+                          </td>
+                          <td class="min-width">
+                            <p>{{ subs.email }}</p>
+                          </td>
+                        </tr>
+                        <!-- end table row -->
+                      </tbody>
+                        {% endfor %}
+                    </table>
+                    <!-- end table -->
+                  </div>
+                </div>
                 <!-- end card -->
               </div>
               <!-- end col -->

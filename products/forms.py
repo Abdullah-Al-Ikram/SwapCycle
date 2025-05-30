@@ -1,5 +1,6 @@
 from django import forms
-from .models import Product, Category, Order,PickupPoint
+from .models import Product, Category, Order, PickupPoint, Subscription
+
 
 class ProductForm(forms.ModelForm):
     class Meta:
@@ -20,3 +21,8 @@ class PickupPointForm(forms.ModelForm):
     class Meta:
         model = PickupPoint
         fields = ['name', 'address']
+
+class SubscribeForm(forms.ModelForm):
+    class Meta:
+        model = Subscription
+        fields = ['name', 'email']

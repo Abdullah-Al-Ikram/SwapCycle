@@ -24,5 +24,7 @@ urlpatterns = [
 
     path('pickup-list/', views.pickup_list, name='pickup-list'),
     path('pickup-points/create/', views.pickup_create, name='pickup-point-create'),
+    path('subscriptions/', views.subscription_list, name='subscription-list'),
+
 
 ]
